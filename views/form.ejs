@@ -1,11 +1,12 @@
+<%- include('partials/header') %>
 <div class="container">
-    <form action="/add" method="post">
+    <form action="" method="post">
         <div class="row">
             <div class="col-25">
                 <label for="title">Title</label>
             </div>
             <div class="col-75">
-                <input type="text" id="title" name="title" placeholder="Nama Kerjaannya">
+                <input type="text" id="title" name="title" value="<%= item.title %>" placeholder="Nama Kerjaannya">
             </div>
         </div>
         <div class="row">
@@ -14,8 +15,8 @@
             </div>
             <div class="col-75">
                 <select id="complete" name="complete">
-                    <option value="false">Belum</option>
-                    <option value="true">Sudah</option>
+                    <option value="false"<%= !item.complete ? ' selected' : '' %>>Belum</option>
+                    <option value="true"<%= item.complete ? ' selected' : '' %>>Sudah</option>
                 </select>
             </div>
         </div>
@@ -25,3 +26,4 @@
         </div>
     </form>
 </div>
+<%- include('partials/footer') %>
