@@ -1,0 +1,27 @@
+<div class="container">
+    <form action="/add" method="post">
+        <div class="row">
+            <div class="col-25">
+                <label for="title">Title</label>
+            </div>
+            <div class="col-75">
+                <input type="text" id="title" name="title" placeholder="Nama Kerjaannya">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="complete">Complete</label>
+            </div>
+            <div class="col-75">
+                <select id="complete" name="complete">
+                    <option value="false">Belum</option>
+                    <option value="true">Sudah</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <button class="btn" type="submit">Simpan</button>
+        </div>
+    </form>
+</div>
