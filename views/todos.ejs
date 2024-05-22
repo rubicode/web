@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     <a href="/edit/<%= item.id %>">edit</a>
-                    <a href="/delete/<%= item.id %>">delete</a>
+                    <a href="/delete/<%= item.id %>" onclick="return confirm('apakah anda yakin')">delete</a>
                 </td>
             </tr>
             <% }) %>
