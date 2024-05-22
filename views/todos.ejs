@@ -23,8 +23,8 @@
                     <%= item.complete ? 'Sudah' : 'Belum' %>
                 </td>
                 <td>
-                    <a href="/edit/<%= index %>">edit</a>
-                    <a href="/delete/<%= index %>">delete</a>
+                    <a href="/edit/<%= item.id %>">edit</a>
+                    <a href="/delete/<%= item.id %>">delete</a>
                 </td>
             </tr>
             <% }) %>
