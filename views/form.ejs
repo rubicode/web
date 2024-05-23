@@ -1,29 +1,23 @@
 <%- include('partials/header') %>
-<div class="container">
-    <form action="" method="post">
-        <div class="row">
-            <div class="col-25">
-                <label for="title">Title</label>
+    <div class="container">
+        <form action="" method="post">
+            <div class="row mb-3">
+                <label for="title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="title" name="title" value="<%= item.title %>"
+                        placeholder="Nama Kerjaannya">
+                </div>
             </div>
-            <div class="col-75">
-                <input type="text" id="title" name="title" value="<%= item.title %>" placeholder="Nama Kerjaannya">
+            <div class="row mb-3">
+                <label for="complete" class="col-sm-2 col-form-label">Complete</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="complete" name="complete">
+                        <option value="false" <%=!item.complete ? ' selected' : '' %>>Belum</option>
+                        <option value="true" <%=item.complete ? ' selected' : '' %>>Sudah</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-25">
-                <label for="complete">Complete</label>
-            </div>
-            <div class="col-75">
-                <select id="complete" name="complete">
-                    <option value="false"<%= !item.complete ? ' selected' : '' %>>Belum</option>
-                    <option value="true"<%= item.complete ? ' selected' : '' %>>Sudah</option>
-                </select>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <button class="btn" type="submit">Simpan</button>
-        </div>
-    </form>
-</div>
-<%- include('partials/footer') %>
+            <button class="btn btn-primary" type="submit">Simpan</button>
+        </form>
+    </div>
+    <%- include('partials/footer') %>

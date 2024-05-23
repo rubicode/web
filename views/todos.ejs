@@ -1,33 +1,93 @@
 <%- include('partials/header') %>
-<h1>Todo List</h1>
-<a class="btn" href="/add">Tambah</a>
-<table>
-    <thead>
-        <tr>
-            <th>No.</th>
-            <th>Title</th>
-            <th>Complete</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% todos.forEach((item, index)=> { %>
-            <tr>
-                <td>
-                    <%= index + 1 %>
-                </td>
-                <td>
-                    <%= item.title %>
-                </td>
-                <td>
-                    <%= item.complete ? 'Sudah' : 'Belum' %>
-                </td>
-                <td>
-                    <a href="/edit/<%= item.id %>">edit</a>
-                    <a href="/delete/<%= item.id %>" onclick="return confirm('apakah anda yakin')">delete</a>
-                </td>
-            </tr>
-            <% }) %>
-    </tbody>
-</table>
-<%- include('partials/footer') %>
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Todo List</h1>
+        </div>
+        <div class="card-body">
+            <form action="" method="get">
+                <input type="hidden" name="page" value="1">
+                <div class="row mb-3">
+                    <label for="title" class="col-sm-2 col-form-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="title" name="title" value="<%= query.title %>">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="complete" class="col-sm-2 col-form-label">Complete</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="complete" name="complete">
+                            <option value="">-pilih-</option>
+                            <option value="false"<%= query.complete == 'false' ? ' selected' : '' %>>Belum</option>
+                            <option value="true"<%= query.complete == 'true' ? ' selected' : '' %>>Sudah</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-info" type="submit">Cari</button>
+                <a class="btn btn-warning" href="/">Reset</a>
+            </form>
+        </div>
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Complete</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% todos.forEach((item, index)=> { %>
+                    <tr>
+                        <td>
+                            <%= index + offset + 1 %>
+                        </td>
+                        <td>
+                            <%= item.title %>
+                        </td>
+                        <td>
+                            <%= item.complete ? 'Sudah' : 'Belum' %>
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="/edit/<%= item.id %>">edit</a>
+                            <a class="btn btn-danger" href="/delete/<%= item.id %>"
+                                onclick="return confirm('apakah anda yakin')">delete</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <% if(page> 1){ %>
+                    <li class="page-item">
+                        <a class="page-link" href="<%= url.replace(`page=${page}`, `page=${Number(page) - 1}`) %>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <% } %>
+                        <% for(let i=1; i <=pages; i++){ %>
+                            <li class="page-item<%= page == i ? ' active' : ''%>"><a class="page-link"
+                                    href="<%= url.replace(`page=${page}`, `page=${i}`) %>">
+                                    <%= i %>
+                                </a></li>
+                            <% } %>
+                                <% if(page < pages){ %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="<%= url.replace(`page=${page}`, `page=${Number(page) + 1}`) %>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
+            </ul>
+        </nav>
+
+        <div class="card-footer">
+            <a class="btn btn-primary" href="/add">Tambah</a>
+        </div>
+    </div>
+
+
+
+
+    <%- include('partials/footer') %>

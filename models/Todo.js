@@ -41,10 +41,40 @@ class Todo {
         }
     }
 
-    static all(callback) {
-        db.all('SELECT * FROM todos', function (err, rows) {
-            if (err) return console.log(err)
-            callback(rows)
+    static all(page, title, complete, callback) {
+        // fitur browse
+        const params = []
+        if(title){
+            params.push(`title like '%${title}%'`)
+        }
+
+        if(complete){
+            params.push(`complete = ${complete}`)
+        }
+
+        const limit = 3
+        const offset = (page - 1) * limit
+
+        let sql = 'SELECT count(*) as total FROM todos'
+
+        if(params.length > 0){
+            sql+= ` WHERE ${params.join(' AND ')}`
+        }
+
+        db.get(sql, function (err, row) {
+            const total = row.total
+            const pages = Math.ceil(total / limit)
+
+            sql = 'SELECT * FROM todos'
+            if(params.length > 0){
+                sql+= ` WHERE ${params.join(' AND ')}`
+            }
+            sql += ' limit ? offset ?'
+            
+            db.all(sql, [limit, offset], function (err, rows) {
+                if (err) return console.log(err)
+                callback({data: rows, pages, offset})
+            })
         })
     }
 

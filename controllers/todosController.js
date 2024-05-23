@@ -1,8 +1,12 @@
 const Todo = require('../models/Todo')
 
 function getTodos(req, res) {
-    Todo.all(function (todos) {
-        res.render('todos', { todos })
+    const url = req.url === '/' ? '/?page=1' : req.url
+    const page = req.query.page || 1
+    const title = req.query.title
+    const complete = req.query.complete
+    Todo.all(page, title, complete, function ({ data, pages, offset }) {
+        res.render('todos', { todos: data, page, pages, offset, url, query: req.query })
     })
 }
 
