@@ -1,12 +1,18 @@
 const Todo = require('../models/Todo')
 
 function getTodos(req, res) {
-    const url = req.url === '/' ? '/?page=1' : req.url
+    const url = req.url === '/' ? '/?page=1&sortBy=id&sortMode=asc' : req.url
     const page = req.query.page || 1
+
+    // sorting
+    const sortBy = req.query.sortBy || 'id'
+    const sortMode = req.query.sortMode || 'asc'
+
+    // searching
     const title = req.query.title
     const complete = req.query.complete
-    Todo.all(page, title, complete, function ({ data, pages, offset }) {
-        res.render('todos', { todos: data, page, pages, offset, url, query: req.query })
+    Todo.all(page, title, complete, sortBy, sortMode, function ({ data, pages, offset }) {
+        res.render('todos', { todos: data, page, pages, offset, url, query: req.query, sortMode, sortBy })
     })
 }
 

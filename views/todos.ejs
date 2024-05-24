@@ -6,6 +6,8 @@
         <div class="card-body">
             <form action="" method="get">
                 <input type="hidden" name="page" value="1">
+                <input type="hidden" name="sortBy" value="id">
+                <input type="hidden" name="sortMode" value="asc">
                 <div class="row mb-3">
                     <label for="title" class="col-sm-2 col-form-label">Title</label>
                     <div class="col-sm-10">
@@ -22,8 +24,8 @@
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-info" type="submit">Cari</button>
-                <a class="btn btn-warning" href="/">Reset</a>
+                <button class="btn btn-info" type="submit" title="cari"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <a class="btn btn-warning" href="/" title="reset"><i class="fa-solid fa-arrows-rotate"></i></a>
             </form>
         </div>
         <hr>
@@ -31,8 +33,9 @@
             <thead>
                 <tr>
                     <th>No.</th>
-                    <th>Title</th>
-                    <th>Complete</th>
+                    <th><a href="<%= url.replace(`sortBy=${sortBy}`, `sortBy=id`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'id' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> ID</a></th>
+                    <th><a href="<%= url.replace(`sortBy=${sortBy}`, `sortBy=title`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Title</a></th>
+                    <th><a href="<%= url.replace(`sortBy=${sortBy}`, `sortBy=complete`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -43,15 +46,18 @@
                             <%= index + offset + 1 %>
                         </td>
                         <td>
+                            <%= item.id %>
+                        </td>
+                        <td>
                             <%= item.title %>
                         </td>
                         <td>
                             <%= item.complete ? 'Sudah' : 'Belum' %>
                         </td>
                         <td>
-                            <a class="btn btn-success" href="/edit/<%= item.id %>">edit</a>
+                            <a class="btn btn-success" href="/edit/<%= item.id %>" title="edit"><i class="fa-solid fa-pencil"></i></a>
                             <a class="btn btn-danger" href="/delete/<%= item.id %>"
-                                onclick="return confirm('apakah anda yakin')">delete</a>
+                                onclick="return confirm('apakah anda yakin')" title="delete"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
                     <% }) %>
@@ -83,7 +89,7 @@
         </nav>
 
         <div class="card-footer">
-            <a class="btn btn-primary" href="/add">Tambah</a>
+            <a class="btn btn-primary" href="/add"><i class="fa-solid fa-plus"></i> Tambah</a>
         </div>
     </div>
 

@@ -41,15 +41,18 @@ class Todo {
         }
     }
 
-    static all(page, title, complete, callback) {
+    static all(page, title, complete, sortBy, sortMode, callback) {
         // fitur browse
+        const queryParams = []
         const params = []
-        if(title){
-            params.push(`title like '%${title}%'`)
+        if (title) {
+            queryParams.push(`title like '%' || ? || '%'`)
+            params.push(title)
         }
 
-        if(complete){
-            params.push(`complete = ${complete}`)
+        if (complete) {
+            queryParams.push(`complete = ?`)
+            params.push(JSON.parse(complete))
         }
 
         const limit = 3
@@ -57,23 +60,25 @@ class Todo {
 
         let sql = 'SELECT count(*) as total FROM todos'
 
-        if(params.length > 0){
-            sql+= ` WHERE ${params.join(' AND ')}`
+        if (queryParams.length > 0) {
+            sql += ` WHERE ${queryParams.join(' AND ')}`
         }
 
-        db.get(sql, function (err, row) {
+        db.get(sql, params, function (err, row) {
             const total = row.total
             const pages = Math.ceil(total / limit)
 
             sql = 'SELECT * FROM todos'
-            if(params.length > 0){
-                sql+= ` WHERE ${params.join(' AND ')}`
+            if (queryParams.length > 0) {
+                sql += ` WHERE ${queryParams.join(' AND ')}`
             }
+            sql += ` ORDER BY ${['id', 'title', 'complete'].includes(sortBy) ? sortBy : 'id'} ${sortMode == 'asc' ? 'asc' : 'desc'}`
             sql += ' limit ? offset ?'
-            
-            db.all(sql, [limit, offset], function (err, rows) {
+            params.push(limit, offset)
+            console.log('sql', sql, params)
+            db.all(sql, params, function (err, rows) {
                 if (err) return console.log(err)
-                callback({data: rows, pages, offset})
+                callback({ data: rows, pages, offset })
             })
         })
     }
