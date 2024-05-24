@@ -75,7 +75,6 @@ class Todo {
             sql += ` ORDER BY ${['id', 'title', 'complete'].includes(sortBy) ? sortBy : 'id'} ${sortMode == 'asc' ? 'asc' : 'desc'}`
             sql += ' limit ? offset ?'
             params.push(limit, offset)
-            console.log('sql', sql, params)
             db.all(sql, params, function (err, rows) {
                 if (err) return console.log(err)
                 callback({ data: rows, pages, offset })
