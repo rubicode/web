@@ -22,21 +22,21 @@ class Todo {
         }
     }
 
-    static create(title = '', complete, callback) {
+    static create(title = '', complete, picture, callback) {
         if (typeof arguments[1] === 'function') {
             db.run(`INSERT INTO todos (title, complete) VALUES (?, false)`, [title], function (err) {
                 if (err) return console.log(err)
                 callback()
             })
-        } else if (typeof arguments[1] === 'boolean') {
+        } else if (typeof arguments[1] === 'boolean' && typeof arguments[2] === 'function') {
             db.run(`INSERT INTO todos (title, complete) VALUES (?, ?)`, [title, complete], function (err) {
                 if (err) return console.log(err)
                 callback()
             })
         } else {
-            db.run(`INSERT INTO todos (title) VALUES (?)`, [title], function (err) {
+            db.run(`INSERT INTO todos (title, complete, picture) VALUES (?, ?, ?)`, [title, complete, picture], function (err) {
                 if (err) return console.log(err)
-                console.log('callback not define')
+                callback()
             })
         }
     }

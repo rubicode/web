@@ -1,4 +1,5 @@
 const Todo = require('../models/Todo')
+const path = require('path')
 
 function getTodos(req, res) {
     const url = req.url === '/' ? '/?page=1&sortBy=id&sortMode=asc' : req.url
@@ -23,9 +24,26 @@ function addTodo(req, res) {
 function createTodo(req, res) {
     const title = req.body.title
     const complete = JSON.parse(req.body.complete)
-    Todo.create(title, complete, function () {
-        res.redirect('/todos')
-    })
+
+    if (!req.files || Object.keys(req.files).length === 0) {
+        Todo.create(title, complete, function () {
+            res.redirect('/todos')
+        })
+    } else {
+        const picture = req.files.picture
+        const fileName = `${Date.now()}-${picture.name}`;
+        const uploadPath = path.join(__dirname, '..', 'public', 'images', fileName);
+        console.log(uploadPath)
+        picture.mv(uploadPath, function (err) {
+            if (err)
+                return res.status(500).send(err);
+            Todo.create(title, complete, fileName, function () {
+                res.redirect('/todos')
+            })
+        });
+    }
+
+
 }
 
 function deleteTodo(req, res) {

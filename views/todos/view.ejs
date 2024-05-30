@@ -36,6 +36,7 @@
                     <th><a href="/todos<%= url.replace(`sortBy=${sortBy}`, `sortBy=id`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'id' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> ID</a></th>
                     <th><a href="/todos<%= url.replace(`sortBy=${sortBy}`, `sortBy=title`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'title' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Title</a></th>
                     <th><a href="/todos<%= url.replace(`sortBy=${sortBy}`, `sortBy=complete`).replace(`sortMode=${sortMode}`, `sortMode=${sortMode == 'asc' ? 'desc' : 'asc'}`) %>"><i class="fa-solid fa-<%= sortBy == 'complete' ? sortMode == 'asc' ? 'sort-up' : 'sort-down' : 'sort' %>"></i> Complete</a></th>
+                    <th>Picture</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -53,6 +54,9 @@
                         </td>
                         <td>
                             <%= item.complete ? 'Sudah' : 'Belum' %>
+                        </td>
+                        <td>
+                            <img src="/images/<%= item.picture %>" alt="preview" width="100">
                         </td>
                         <td>
                             <a class="btn btn-success" href="/todos/edit/<%= item.id %>" title="edit"><i class="fa-solid fa-pencil"></i></a>
